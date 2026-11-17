@@ -1,0 +1,96 @@
+/* Layer order keeps Tailwind preflight below antd styles and utilities above them */
+@layer theme, base, antd, components, utilities;
+
+@import 'tailwindcss';
+
+@theme {
+  --color-board: #1f3b33;
+  --color-board-deep: #172e28;
+  --color-chalk: #eef1e8;
+  --color-chalk-dim: #b9c4b8;
+  --color-wood: #9a6640;
+
+  --color-paper: #fbfbfe;
+  --color-grid: #e7e8f6;
+  --color-grid-strong: #cfd2ee;
+  --color-margin: #e0605a;
+  --color-ink: #262a3f;
+  --color-ink-soft: #565b75;
+  --color-purple-ink: #3d2c8d;
+
+  /* Chalk colors on the board and matching ink colors on paper */
+  --color-physics: #8cc7f2;
+  --color-physics-ink: #1c64a3;
+  --color-chemistry: #f5c451;
+  --color-chemistry-ink: #8a5a00;
+  --color-biology: #f29bb8;
+  --color-biology-ink: #a3305f;
+
+  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  --font-chalk: 'Patrick Hand', 'Be Vietnam Pro', cursive;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background-color: var(--color-board-deep);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-chemistry);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Chalkboard: green base, erased chalk smudges and light grain */
+@utility bg-board {
+  background-color: var(--color-board);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 60% 40% at 18% 28%, rgb(238 241 232 / 0.07), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 78% 72%, rgb(238 241 232 / 0.05), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 60% 15%, rgb(238 241 232 / 0.04), transparent 70%);
+}
+
+/* Vietnamese 4-line notebook paper: thin rule every 7px, big square every 28px */
+@utility bg-notebook {
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(to right, var(--color-grid-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size:
+    28px 28px,
+    28px 28px,
+    28px 7px;
+}
+
+/* Fade the 3D frame edges so the bench blends into the board instead of being clipped */
+@utility scene-fade {
+  --fade-x: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+  --fade-y: linear-gradient(to bottom, #000 82%, transparent 100%);
+  -webkit-mask-image: var(--fade-x), var(--fade-y);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--fade-x), var(--fade-y);
+  mask-composite: intersect;
+}
+
+@utility chalk-glow {
+  text-shadow:
+    0 0 1px rgb(238 241 232 / 0.35),
+    0 0 12px rgb(238 241 232 / 0.08);
+}
