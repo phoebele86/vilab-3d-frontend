@@ -1,6 +1,7 @@
 import { Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MathUtils, type MeshStandardMaterial } from 'three'
 
 import type { LabView, Subject, SubjectKey } from '@/types/subject'
@@ -24,6 +25,7 @@ export const Station = ({
   onSelect,
   children,
 }: StationProps) => {
+  const { t } = useTranslation()
   const [isHovered, setIsHovered] = useState(false)
   const ringMaterial = useRef<MeshStandardMaterial>(null)
   const isActive = activeView === subject.key
@@ -91,9 +93,9 @@ export const Station = ({
             className={`block text-[26px] leading-none ${isActive ? 'underline decoration-2 underline-offset-6' : ''}`}
             style={{ color: subject.chalkColor }}
           >
-            {subject.name}
+            {t(`subjects.${subject.key}.name`)}
           </span>
-          <span className="mt-1 hidden text-[17px] leading-none text-chalk/80 sm:block">{subject.modelName}</span>
+          <span className="mt-1 hidden text-[17px] leading-none text-chalk/80 sm:block">{t(`subjects.${subject.key}.modelName`)}</span>
         </button>
       </Html>
     </group>

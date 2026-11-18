@@ -21,10 +21,275 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/lessons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Lessons */
+        get: operations["list_lessons_api_v1_lessons_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/lessons/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Lesson */
+        get: operations["get_lesson_api_v1_lessons__slug__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/molecules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Molecules */
+        get: operations["list_molecules_api_v1_molecules_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/molecules/{formula}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Molecule */
+        get: operations["get_molecule_api_v1_molecules__formula__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/chemistry/reaction": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Build Reaction */
+        post: operations["build_reaction_api_v1_chemistry_reaction_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: never;
+    schemas: {
+        /** Atom */
+        Atom: {
+            /** El */
+            el: string;
+            pos: components["schemas"]["Vector3"];
+        };
+        Bond: [
+            number,
+            number,
+            number
+        ];
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /** LessonDetail */
+        LessonDetail: {
+            /** Slug */
+            slug: string;
+            /**
+             * Subject
+             * @enum {string}
+             */
+            subject: "physics" | "chemistry" | "biology" | "general";
+            /** Grade */
+            grade: number;
+            /** Chapter No */
+            chapter_no: number | null;
+            chapter_title: components["schemas"]["LocalizedText"] | null;
+            /** Lesson No */
+            lesson_no: number;
+            title: components["schemas"]["LocalizedText"];
+            /** Model Count */
+            model_count: number;
+            summary: components["schemas"]["LocalizedText"] | null;
+            /** Models */
+            models: components["schemas"]["Model3DOut"][];
+        };
+        /** LessonSummary */
+        LessonSummary: {
+            /** Slug */
+            slug: string;
+            /**
+             * Subject
+             * @enum {string}
+             */
+            subject: "physics" | "chemistry" | "biology" | "general";
+            /** Grade */
+            grade: number;
+            /** Chapter No */
+            chapter_no: number | null;
+            chapter_title: components["schemas"]["LocalizedText"] | null;
+            /** Lesson No */
+            lesson_no: number;
+            title: components["schemas"]["LocalizedText"];
+            /** Model Count */
+            model_count: number;
+        };
+        /** LocalizedText */
+        LocalizedText: {
+            /** Vi */
+            vi: string;
+            /** En */
+            en?: string | null;
+        };
+        /** Model3DOut */
+        Model3DOut: {
+            /** Key */
+            key: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "glb" | "molecule" | "simulation";
+            name: components["schemas"]["LocalizedText"];
+            /** Path */
+            path: string | null;
+            /** Config */
+            config: {
+                [key: string]: unknown;
+            };
+            /** Structures */
+            structures: components["schemas"]["Structure"][];
+        };
+        /** MoleculeDetail */
+        MoleculeDetail: {
+            /** Formula */
+            formula: string;
+            name: components["schemas"]["LocalizedText"];
+            /** Smiles */
+            smiles: string;
+            structure: components["schemas"]["MoleculeStructure"];
+        };
+        /** MoleculeStructure */
+        MoleculeStructure: {
+            /** Atoms */
+            atoms: components["schemas"]["Atom"][];
+            /** Bonds */
+            bonds: components["schemas"]["Bond"][];
+        };
+        /** MoleculeSummary */
+        MoleculeSummary: {
+            /** Formula */
+            formula: string;
+            name: components["schemas"]["LocalizedText"];
+        };
+        /** ReactionAtom */
+        ReactionAtom: {
+            /** El */
+            el: string;
+            pos: components["schemas"]["Vector3"];
+            /** Molecule */
+            molecule: number;
+        };
+        /** ReactionDetail */
+        ReactionDetail: {
+            /** Equation Key */
+            equation_key: string;
+            /** Balanced */
+            balanced: string;
+            /** Reactants */
+            reactants: components["schemas"]["Species"][];
+            /** Products */
+            products: components["schemas"]["Species"][];
+            left: components["schemas"]["ReactionSide"];
+            right: components["schemas"]["ReactionSide"];
+            /** Mapping */
+            mapping: [
+                number,
+                number
+            ][];
+        };
+        /** ReactionRequest */
+        ReactionRequest: {
+            /**
+             * Equation
+             * @example H2 + O2 -> H2O
+             */
+            equation: string;
+        };
+        /** ReactionSide */
+        ReactionSide: {
+            /** Atoms */
+            atoms: components["schemas"]["ReactionAtom"][];
+            /** Bonds */
+            bonds: components["schemas"]["Bond"][];
+        };
+        /** Species */
+        Species: {
+            /** Formula */
+            formula: string;
+            /** Coefficient */
+            coefficient: number;
+        };
+        /** Structure */
+        Structure: {
+            /** Node */
+            node: string;
+            label: components["schemas"]["LocalizedText"];
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
+        };
+        Vector3: [
+            number,
+            number,
+            number
+        ];
+    };
     responses: never;
     parameters: never;
     requestBodies: never;
@@ -51,6 +316,154 @@ export interface operations {
                     "application/json": {
                         [key: string]: string;
                     };
+                };
+            };
+        };
+    };
+    list_lessons_api_v1_lessons_get: {
+        parameters: {
+            query?: {
+                grade?: number | null;
+                subject?: ("physics" | "chemistry" | "biology" | "general") | null;
+                has_models?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LessonSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_lesson_api_v1_lessons__slug__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LessonDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_molecules_api_v1_molecules_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MoleculeSummary"][];
+                };
+            };
+        };
+    };
+    get_molecule_api_v1_molecules__formula__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                formula: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MoleculeDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    build_reaction_api_v1_chemistry_reaction_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReactionRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReactionDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

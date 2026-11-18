@@ -1,6 +1,7 @@
 import { CameraControls, CameraControlsImpl, Sparkles } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { useEffect, useRef, type ComponentType, type RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Vector3 } from 'three'
 
 import { SUBJECT_BY_KEY } from '@/data/subjects'
@@ -24,17 +25,17 @@ const FOV = 38
 const HALF_FOV_TAN = Math.tan(((FOV / 2) * Math.PI) / 180)
 
 const STATIONS: { key: SubjectKey; position: Point; labelHeight: number; Model: ComponentType<StationModelProps> }[] = [
-  { key: 'ly', position: [-2.7, 0, 0.3], labelHeight: 3.0, Model: PhysicsStation },
-  { key: 'hoa', position: [0, 0, -0.5], labelHeight: 3.15, Model: ChemistryStation },
-  { key: 'sinh', position: [2.7, 0, 0.3], labelHeight: 3.0, Model: BiologyStation },
+  { key: 'physics', position: [-2.7, 0, 0.3], labelHeight: 3.0, Model: PhysicsStation },
+  { key: 'chemistry', position: [0, 0, -0.5], labelHeight: 3.15, Model: ChemistryStation },
+  { key: 'biology', position: [2.7, 0, 0.3], labelHeight: 3.0, Model: BiologyStation },
 ]
 
 // halfWidth is how much of the scene must stay visible, so narrow screens pull the camera back
 const VIEWS: Record<LabView, { target: Point; direction: Point; halfWidth: number; minDistance: number }> = {
   all: { target: [0, 1.1, 0], direction: [0, 0.38, 1], halfWidth: 4.5, minDistance: 9 },
-  ly: { target: [-2.7, 1.3, 0.3], direction: [-0.18, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
-  hoa: { target: [0, 1.45, -0.5], direction: [0, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
-  sinh: { target: [2.7, 1.35, 0.3], direction: [0.18, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
+  physics: { target: [-2.7, 1.3, 0.3], direction: [-0.18, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
+  chemistry: { target: [0, 1.45, -0.5], direction: [0, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
+  biology: { target: [2.7, 1.35, 0.3], direction: [0.18, 0.32, 1], halfWidth: 1.4, minDistance: 4.8 },
 }
 
 const getCameraPose = (view: LabView, aspect: number) => {
@@ -83,6 +84,7 @@ const CameraRig = ({ activeView, reducedMotion }: Omit<LabSceneProps, 'onSelect'
 }
 
 export const LabScene = ({ activeView, onSelect, reducedMotion }: LabSceneProps) => {
+  const { t } = useTranslation()
   const labelLayer = useRef<HTMLDivElement>(null)
 
   return (
@@ -92,7 +94,7 @@ export const LabScene = ({ activeView, onSelect, reducedMotion }: LabSceneProps)
         dpr={[1, 2]}
         camera={{ fov: FOV, position: [0, 4.6, 11] }}
         gl={{ antialias: true, alpha: true }}
-        aria-label="Mô hình 3D phòng thí nghiệm với ba bàn: Vật lý, Hóa học, Sinh học"
+        aria-label={t('hero.sceneLabel')}
         role="img"
       >
         <ambientLight intensity={0.55} />
